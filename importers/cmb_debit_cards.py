@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+'''Beancount importer for China Merchants Bank debit cards'''
 
 import sys
 import csv

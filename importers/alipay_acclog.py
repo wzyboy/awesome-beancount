@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+'''Beancount importer for Alipay online payments'''
 
 import sys
 import csv
