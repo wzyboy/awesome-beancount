@@ -29,8 +29,6 @@ welcome to make them more portable and universal.
 ## Links
 
 - [Beancount](http://furius.ca/beancount/)
-
 - [Plain Text Accounting](http://plaintextaccounting.org/)
-
 - [A Beancount tutorial (Chinese)](https://wzyboy.im/post/1063.html)
 
