@@ -16,7 +16,7 @@ back into Beancount.
 Few banks outside North America support OFX. Banks and financial services in
 China, for example, use their own private "bills" format. Users have to write
 their own scripts to import these bills. Here we have a collection of importers
-contribute by users:
+contributed by users:
 
 - China Merchants Bank credit cards;
 - China Merchants Bank debit cards;
