@@ -79,7 +79,7 @@ class CMBTransaction(Transaction):
             '{0.trade_date} {3} "{0.payee}" {0.comment}\n'
             '{1}'
             '  {2} {0.amount} CNY\n'
-            '  Expenses:Uncategorized'
+            '  ! Expenses:Uncategorized'
             ).format(self, metadata, self.commondity(), flags)
 
 

@@ -62,13 +62,13 @@ class CMBDebitTransaction(Transaction):
     def beancount_postings(self):
         if self.income:
             return (
-                '  Income:Uncategorized -{0.income} CNY\n'
+                '  ! Income:Uncategorized -{0.income} CNY\n'
                 '  {1} +{0.income} CNY'
             ).format(self, self.commondity())
         else:
             return (
                 '  {1} {0.expenses} CNY\n'
-                '  Expenses:Uncategorized +{0.amount} CNY'
+                '  ! Expenses:Uncategorized +{0.amount} CNY'
             ).format(self, self.commondity())
 
     def beancount_repr(self):
