@@ -8,7 +8,9 @@ time. [Inspired by @fantasticfears](https://twitter.com/fantasticfears/status/70
 
 ## What do we have here?
 
-Beancount importers. The original author of Beancount used to have a project
+### Beancount importers (`importers` directory)
+
+The original author of Beancount used to have a project
 "LedgerHub", where all the "dirty code" for importing OFX and stock quotes data
 into Beancount live. The project is announced dead and the code has been merged
 back into Beancount.
@@ -16,14 +18,24 @@ back into Beancount.
 Few banks outside North America support OFX. Banks and financial services in
 China, for example, use their own private "bills" format. Users have to write
 their own scripts to import these bills. Here we have a collection of importers
-contributed by users:
-
-- China Merchants Bank credit cards;
-- China Merchants Bank debit cards;
-- Alipay online payments.
+contributed by users.
 
 They are not perfect, many of them have hard-coded values. Pull requests are
 welcome to make them more portable and universal.
+
+### How to get your data (`docs` directory)
+
+Instructions on how to download your data suitable for importing from the
+website of your banks.
+
+You are welcome to write more.
+
+### Test data (`test_data` directory)
+
+We provide some test data for you to play and test with. For privacy reasons,
+some information in the data are censored / modified / faked.
+
+You could also submit your bank bills along with your importers.
 
 
 ## Links
