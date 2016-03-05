@@ -218,12 +218,18 @@ class AliRecord(Transaction):
         d['narration'] = self.name
         d['metadata'] = (
             '  tradeNo:"{0.tradeNo}"\n'
-            '  bill:"alipay record"'
+            '  bill:"alipay record"\n'
             ).format(self)
-        d['postings'] = (
-            '  Income: +{0.income} CNY\n'
-            '  Expenses: {0.expenses} CNY'
-            ).format(self)
+        if self.expenses:
+            d['postings'] = (
+                '  Expenses:Uncategorized {0.expenses} CNY\n'
+                '  Income:Uncategorized'
+                ).format(self)
+        else:
+            d['postings'] = (
+                '  Income:Uncategorized +{0.income} CNY\n'
+                '  Expenses:Uncategorized'
+                ).format(self)
 
         return template.format_map(d)
 
@@ -290,7 +296,7 @@ class AliAcclog(Transaction):
             commondity = self.link[0].commondity()
         alipayCommondity = _commondity_for_source("支付宝")
 
-        expenses_commondity = "! Expenses:Uncategorized"
+        expenses_commondity = "Expenses:Uncategorized"
         if self.chain_target():
             expenses_commondity = _commondity_for_source(self.chain_target())
 
@@ -298,7 +304,7 @@ class AliAcclog(Transaction):
             if self.is_alipay_source():
                 # alipay => alipay
                 return (
-                        '  ! Income:Uncategorized -{1.income} CNY\n'
+                        '  Income:Uncategorized -{1.income} CNY\n'
                         '  {2} +{1.income} CNY'
                     ).format(commondity, self, alipayCommondity)
 
