@@ -222,14 +222,14 @@ class AliRecord(Transaction):
             ).format(self)
         if self.expenses:
             d['postings'] = (
-                '  ! Expenses:Uncategorized {0.expenses} CNY\n'
-                '  ! Income:Uncategorized'
-                ).format(self)
+                '  ! {1} {0.expenses} CNY\n'
+                '  ! Expenses:Uncategorized +{0.amount} CNY'
+                ).format(self, self.commondity())
         else:
             d['postings'] = (
-                '  ! Income:Uncategorized +{0.income} CNY\n'
-                '  ! Expenses:Uncategorized'
-                ).format(self)
+                '  ! Income:Uncategorized -{0.income} CNY\n'
+                '  ! {1} +{0.income} CNY'
+                ).format(self, self.commondity())
 
         return template.format_map(d)
 
