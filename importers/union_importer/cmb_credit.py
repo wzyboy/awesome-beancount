@@ -35,11 +35,12 @@ class CMBTransaction(Transaction):
         self.trade_date = row[1].strip()  # 交易日期
         self.payee = row[3].strip().replace('"', '')  # 交易摘要
 
-        self.amount = row[5].strip().strip('"').replace(',', '')  # 人民币金额
-        if not self.amount.startswith('-'):
-            self.expenses = self.amount
+        amount = row[5].strip().strip('"').replace(',', '')  # 人民币金额
+        if not amount.startswith('-'):
+            self.expenses = amount
         else:
-            self.income = self.amount
+            self.income = amount
+        self.amount = amount.strip('-')
 
         self.settled_date = row[2].strip()  # 记账日期
         self.card_last_digit = row[4].strip()  # 卡号后四位

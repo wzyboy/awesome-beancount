@@ -115,6 +115,7 @@ class Transaction(object):
         self.trade_date = None
         self.income = None
         self.expenses = None
+        self.amount = None
 
         self.comment = None
         self.payee = None
