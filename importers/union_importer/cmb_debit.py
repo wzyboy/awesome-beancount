@@ -4,7 +4,7 @@
 import sys
 import csv
 import argparse
-import datetime
+from datetime import datetime
 import glob
 import os
 
@@ -41,6 +41,15 @@ class CMBDebitTransaction(Transaction):
     def __init__(self, row):
         super(CMBDebitTransaction, self).__init__()
         self.row = row
+        if len(row) == 5:
+            self.csv_5_fields_type(row)
+        elif len(row) == 7:
+            self.csv_7_fields_type(row)
+        else:
+            print("Unknow CMB debit csv file\nrow:" + str(row))
+            sys.exit(1)
+
+    def csv_7_fields_type(self, row):
         bd = row[0].strip()  # 交易日期
         self.trade_date = bd[:4] + '-' + bd[4:-2] + '-' + bd[6:]
         self.trade_time = row[1].strip()  # 交易时间
@@ -55,6 +64,24 @@ class CMBDebitTransaction(Transaction):
         self.balance = row[4].strip()  # 余额
         self.category = row[5].strip()  # 交易类型
         self.comment = row[6].strip()  # 交易备注
+
+    def csv_5_fields_type(self, row):
+        date = row[0].strip()  # 交易时间
+        self.datetime = datetime.strptime(date, '%Y%m%d  %H:%M:%S')
+        self.trade_date = self.datetime.date().strftime('%Y-%m-%d')
+        self.trade_time = self.datetime.time().strftime('%H:%M:%S')
+
+        amount = row[1].strip().replace(',', '')  # 收支
+        if amount.startswith('-'):
+            self.expenses = amount
+            self.amount = amount.strip('-')
+        else:
+            self.income = amount
+            self.amount = amount
+
+        self.balance = row[2].strip().replace(',', '')  # 余额
+        self.category = row[3].strip()  # 交易类型
+        self.comment = row[4].strip()  # 交易备注
 
     def description(self):
         return self.category
