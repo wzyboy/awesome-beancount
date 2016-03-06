@@ -72,15 +72,27 @@ class CMBTransaction(Transaction):
 
         return metadata
 
+    def postings(self):
+        if not self.income:
+            return (
+                '  {1} -{0.amount} CNY\n'
+                '  ! Expenses:Uncategorized +{0.amount} CNY'
+            ).format(self, self.commondity())
+        else:
+            return (  # Refunds
+                '  {1} +{0.amount} CNY\n'
+                '  ! Expenses:Uncategorized -{0.amount} CNY'
+            ).format(self, self.commondity())
+
     def beancount_repr(self):
         metadata = self.metadata()
         flags = Account.beancount_flags
+        postings = self.postings()
         return (
             '{0.trade_date} {3} "{0.payee}" {0.comment}\n'
             '{1}'
-            '  {2} {0.amount} CNY\n'
-            '  ! Expenses:Uncategorized'
-            ).format(self, metadata, self.commondity(), flags)
+            '{2}'
+            ).format(self, metadata, postings, flags)
 
 
 def _map_card(last4):
