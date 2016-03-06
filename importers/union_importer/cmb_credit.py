@@ -21,7 +21,7 @@ class CMBCreditCard(Account):
     def __init__(self):
         super(CMBCreditCard, self).__init__()
         self.name = "招商银行"
-        self.commondity = "Liabilities:Bank:CMB:CreditCards"
+        self.beancount_account = "Liabilities:Bank:CMB:CreditCards"
 
     def parser_row(self, row):
         return CMBTransaction(row)
@@ -77,12 +77,12 @@ class CMBTransaction(Transaction):
             return (
                 '  {1} -{0.amount} CNY\n'
                 '  ! Expenses:Uncategorized +{0.amount} CNY'
-            ).format(self, self.commondity())
+            ).format(self, self.beancount_account())
         else:
             return (  # Refunds
                 '  {1} +{0.amount} CNY\n'
                 '  ! Expenses:Uncategorized -{0.amount} CNY'
-            ).format(self, self.commondity())
+            ).format(self, self.beancount_account())
 
     def beancount_repr(self):
         metadata = self.metadata()

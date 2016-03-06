@@ -19,7 +19,7 @@ class CMBDebitCard(Account):
     def __init__(self):
         super(CMBDebitCard, self).__init__()
         self.name = "招商银行"
-        self.commondity = "Assets:CMB:DebitCard"
+        self.beancount_account = "Assets:CMB:DebitCard"
 
     # csv processing
     def load_csv(self):
@@ -64,12 +64,12 @@ class CMBDebitTransaction(Transaction):
             return (
                 '  ! Income:Uncategorized -{0.income} CNY\n'
                 '  {1} +{0.income} CNY'
-            ).format(self, self.commondity())
+            ).format(self, self.beancount_account())
         else:
             return (
                 '  {1} {0.expenses} CNY\n'
                 '  ! Expenses:Uncategorized +{0.amount} CNY'
-            ).format(self, self.commondity())
+            ).format(self, self.beancount_account())
 
     def beancount_repr(self):
         return (

@@ -31,7 +31,7 @@ def _amount_equal(t1, t2):
             _amount_match(t1.income, t2.expenses))
 
 
-def _commondity_for_source(source):
+def _beancount_account_for_source(source):
     return {
         '支付宝': 'Assets:Alipay',
         '天弘基金': 'Assets:Alipay',
@@ -45,7 +45,7 @@ class Alipay(Account):
     def __init__(self):
         super(Alipay, self).__init__()
         self.name = "支付宝"
-        self.commondity = "Assets:Alipay"
+        self.beancount_account = "Assets:Alipay"
 
         self.is_acclog = False
 
@@ -224,12 +224,12 @@ class AliRecord(Transaction):
             d['postings'] = (
                 '  ! {1} {0.expenses} CNY\n'
                 '  ! Expenses:Uncategorized +{0.amount} CNY'
-                ).format(self, self.commondity())
+                ).format(self, self.beancount_account())
         else:
             d['postings'] = (
                 '  ! Income:Uncategorized -{0.income} CNY\n'
                 '  ! {1} +{0.income} CNY'
-                ).format(self, self.commondity())
+                ).format(self, self.beancount_account())
 
         return template.format_map(d)
 
@@ -290,15 +290,16 @@ class AliAcclog(Transaction):
 
     # beancount stuff
     def postings(self):
-        targetCommondity = _commondity_for_source(self.chain_target())
-        commondity = self.commondity()
+        chain_target = self.chain_target()
+        target_account = _beancount_account_for_source(chain_target)
+        beancount_account = self.beancount_account()
         if self.link:
-            commondity = self.link[0].commondity()
-        alipayCommondity = _commondity_for_source("支付宝")
+            beancount_account = self.link[0].beancount_account()
+        alipay_account = _beancount_account_for_source("支付宝")
 
-        expenses_commondity = "! Expenses:Uncategorized"
-        if self.chain_target():
-            expenses_commondity = _commondity_for_source(self.chain_target())
+        expenses_account = "! Expenses:Uncategorized"
+        if chain_target:
+            expenses_account = _beancount_account_for_source(chain_target)
 
         if self.is_income():
             if self.is_alipay_source():
@@ -306,16 +307,16 @@ class AliAcclog(Transaction):
                 return (
                         '  ! Income:Uncategorized -{1.income} CNY\n'
                         '  {2} +{1.income} CNY'
-                    ).format(commondity, self, alipayCommondity)
+                    ).format(beancount_account, self, alipay_account)
 
             # other source => alipay source
             if self.manager.link:
-                commondity = self.manager.link[0].commondity()
+                beancount_account = self.manager.link[0].beancount_account()
 
             return (
                 '  {0} -{1.income} CNY\n'
                 '  {2} +{1.income} CNY'
-            ).format(commondity, self, alipayCommondity)
+            ).format(beancount_account, self, alipay_account)
         else:
             exp = '+'+self.expenses.replace('-', '')
             if self.is_alipay_source():
@@ -323,15 +324,15 @@ class AliAcclog(Transaction):
                 return (
                     '  {0} {1.expenses} CNY\n'
                     '  {2} {3} CNY'
-                ).format(alipayCommondity, self, expenses_commondity, exp)
+                ).format(alipay_account, self, expenses_account, exp)
 
             return (  # 提现
                 '  {0} {1.expenses} CNY\n'
                 '  {2} {3} CNY'
-            ).format(alipayCommondity, self, commondity, exp)
+            ).format(alipay_account, self, beancount_account, exp)
 
-    def commondity(self):
-        return _commondity_for_source(self.source)
+    def beancount_account(self):
+        return _beancount_account_for_source(self.source)
 
     def chain_target(self):
         if self.record:

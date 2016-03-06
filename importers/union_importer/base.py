@@ -145,8 +145,8 @@ class Transaction(object):
         other.link.append(self)
 
     # output
-    def commondity(self):
-        return self.account.commondity
+    def beancount_account(self):
+        return self.account.beancount_account
 
     def beancount_repr(self):
         amount = 0
@@ -155,12 +155,12 @@ class Transaction(object):
         else:
             amount = self.expenses
 
-        commondity = "Liabilities:CMB:CreditCards"
+        beancount_account = "Liabilities:CMB:CreditCards"
         return (
             '{0.trade_date} ! "{0.payee}" {0.comment}\n'
             ' {1} {2} CNY\n'
             ' ! Expenses:Uncategorized'
-            ).format(self, commondity, amount)
+            ).format(self, beancount_account, amount)
 
     def __repr__(self):
         rep = (

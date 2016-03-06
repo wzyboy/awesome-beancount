@@ -17,7 +17,7 @@ def _amount_match(a1, a2):
     return False
 
 
-def _commondity_for_source(source):
+def _beancount_account_for_source(source):
     return {
         '支付宝': 'Assets:Alipay',
         '天弘基金': 'Assets:Alipay',
@@ -61,8 +61,8 @@ class AliTransaction(object):
         return self.datetime.strftime("%Y-%m-%d")
 
     def postings(self):
-        commondity = self.commondity()
-        alipayCommondity = _commondity_for_source("支付宝")
+        beancount_account = self.beancount_account()
+        alipay_account = _beancount_account_for_source("支付宝")
 
         if self.is_income():
             if self.is_alipay_source():
@@ -70,13 +70,13 @@ class AliTransaction(object):
                 return (
                     '  Income:Uncategorized -{1.income} CNY\n'
                     '  {2} +{1.income} CNY'
-                ).format(commondity, self, alipayCommondity)
+                ).format(beancount_account, self, alipay_account)
 
             # other source => alipay source
             return (
                 '  {0} -{1.income} CNY\n'
                 '  {2} +{1.income} CNY'
-            ).format(commondity, self, alipayCommondity)
+            ).format(beancount_account, self, alipay_account)
         else:
             exp = '+' + self.expenses.replace('-', '')
             if self.is_alipay_source():
@@ -84,15 +84,15 @@ class AliTransaction(object):
                 return (
                     '  {0} {1.expenses} CNY\n'
                     '  ! Expenses:Uncategorized {3} CNY'
-                ).format(alipayCommondity, self, commondity, exp)
+                ).format(alipay_account, self, beancount_account, exp)
 
             return (
                 '  {0} {1.expenses} CNY\n'
                 '  ! {2} {3} CNY'
-            ).format(alipayCommondity, self, commondity, exp)
+            ).format(alipay_account, self, beancount_account, exp)
 
-    def commondity(self):
-        return _commondity_for_source(self.source)
+    def beancount_account(self):
+        return _beancount_account_for_source(self.source)
 
     def is_looks_same(self, other):
         dateDelta = self.datetime - other.datetime
