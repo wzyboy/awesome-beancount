@@ -99,14 +99,15 @@ class CMBDebitTransaction(Transaction):
             ).format(self, self.beancount_account())
 
     def beancount_repr(self):
+        date = self.beancount_transaction_date()
         return (
-            '{0.trade_date} {2} "" "{0.comment}"\n'
+            '{3} {2} "" "{0.comment}"\n'
             '  bill:"cmb debit"\n'
             '  time:"{0.trade_time}"\n'
             '  type:"{0.category}"\n'
             '  balance:"{0.balance}"\n'
             '{1}'
-            ).format(self, self.beancount_postings(), Account.beancount_flags)
+            ).format(self, self.beancount_postings(), Account.beancount_flags, date)
 
 
 def main():

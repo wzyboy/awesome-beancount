@@ -212,7 +212,7 @@ class AliRecord(Transaction):
         )
 
         d = {}
-        d['date'] = self.trade_date
+        d['date'] = self.beancount_transaction_date()
         d['flag'] = Account.beancount_flags
         d['payee'] = self.payee
         d['narration'] = self.name
@@ -413,7 +413,7 @@ class AliAcclog(Transaction):
         )
 
         d = {}
-        d['date'] = self.trade_date
+        d['date'] = self.beancount_transaction_date()
         d['flag'] = Account.beancount_flags
         d['payee'] = self.chain_target() or ''
         d['narration'] = ''

@@ -113,6 +113,7 @@ class Transaction(object):
     def __init__(self):
         super(Transaction, self).__init__()
         self.trade_date = None
+        self.settled_date = None
         self.income = None
         self.expenses = None
         self.amount = None
@@ -149,6 +150,14 @@ class Transaction(object):
     def beancount_account(self):
         return self.account.beancount_account
 
+    def beancount_transaction_date(self):
+        if self.settled_date:
+            return self.settled_date
+        if self.link and self.link[0].settled_date:
+            return self.link[0].settled_date
+
+        return self.trade_date
+
     def beancount_repr(self):
         amount = 0
         if len(self.income) > 0:
@@ -157,11 +166,12 @@ class Transaction(object):
             amount = self.expenses
 
         beancount_account = "Liabilities:CMB:CreditCards"
+        date = self.beancount_transaction_date()
         return (
-            '{0.trade_date} ! "{0.payee}" {0.comment}\n'
+            '{3} ! "{0.payee}" {0.comment}\n'
             ' {1} {2} CNY\n'
             ' ! Expenses:Uncategorized'
-            ).format(self, beancount_account, amount)
+            ).format(self, beancount_account, amount, date)
 
     def __repr__(self):
         rep = (
