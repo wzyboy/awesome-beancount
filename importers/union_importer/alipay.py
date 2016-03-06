@@ -73,7 +73,7 @@ class Alipay(Account):
         # self.filter_results()
 
         self.merge_acclog_and_record()
-        self.transactions.sort(key=lambda t: t.trade_date)
+        self.transactions.sort(key=lambda t: t.sort_key())
 
     def current_csv_type(self, csv_data):
         reader = csv.reader(csv_data)

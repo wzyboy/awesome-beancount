@@ -146,6 +146,9 @@ class Transaction(object):
         self.link.append(other)
         other.link.append(self)
 
+    def sort_key(self):
+        return self.beancount_transaction_date()
+
     # output
     def beancount_account(self):
         return self.account.beancount_account

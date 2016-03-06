@@ -28,7 +28,7 @@ class CMBDebitCard(Account):
             self.parser_csv(csv_data)
             csv_data.close()
 
-        self.transactions.sort(key=lambda t: t.trade_date)
+        self.transactions.sort(key=lambda t: t.sort_key())
 
     def parser_row(self, row):
         if row[0].strip().startswith('#'):
