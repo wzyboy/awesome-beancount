@@ -81,9 +81,14 @@ class Account(object):
         return True
 
     def row_is_endmark(self, row):
+        """If the csv file has addition infomation after table body
+        return True to end csv parsering
+        """
         return False
 
     def parser_row(self, row):
+        """Override to return Transaction object
+        """
         return None
 
     # output
@@ -118,12 +123,19 @@ class Transaction(object):
 
     # transaction linking
     def looks_like(self, t):
-        pass
+        """Override to determine if a transaction in other account is same with self
+        """
+        return False
 
     def is_assets(self):
+        """Subclass can override this method
+        return False if it is a credit card
+        """
         return True
 
     def description(self):
+        """Provide infomation which contains keywords of other account
+        """
         return (
             '{} \t {} {}'
         ).format(self.comment, self.payee, self.target)
