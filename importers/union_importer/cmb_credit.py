@@ -61,8 +61,8 @@ class CMBTransaction(Transaction):
 
         metadata = (
             '  bill: "cmb credit"\n'
-            '  settled_date:"{0.settled_date}"\n'
-            '  card:"{1}"\n'
+            '  trade_date: "{0.trade_date}"\n'
+            '  card: "{1}"\n'
         ).format(self, card)
 
         if CMBCreditCard.show_linked:
@@ -90,10 +90,10 @@ class CMBTransaction(Transaction):
         flags = Account.beancount_flags
         postings = self.postings()
         return (
-            '{0.trade_date} {3} "{0.payee}" {0.comment}\n'
+            '{0.settled_date} {3} "{0.payee}" {0.comment}\n'
             '{1}'
             '{2}'
-            ).format(self, metadata, postings, flags)
+        ).format(self, metadata, postings, flags)
 
 
 def _map_card(last4):
