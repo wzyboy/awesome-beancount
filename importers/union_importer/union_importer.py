@@ -77,7 +77,7 @@ class Resolver(object):
         remain = [x for x in alltransactions if x not in exclude]
 
         final = matched + remain
-        final.sort(key=lambda t: t.trade_date)
+        final.sort(key=lambda t: t.sort_key())
         return final
 
 

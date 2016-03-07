@@ -61,7 +61,7 @@ class CMBTransaction(Transaction):
 
         metadata = (
             '  bill: "cmb credit"\n'
-            '  settled_date:"{0.settled_date}"\n'
+            '  trade_date:"{0.trade_date}"\n'
             '  card:"{1}"\n'
         ).format(self, card)
 
@@ -90,7 +90,7 @@ class CMBTransaction(Transaction):
         flags = Account.beancount_flags
         postings = self.postings()
         return (
-            '{0.trade_date} {3} "{0.payee}" {0.comment}\n'
+            '{0.settled_date} {3} "{0.payee}" {0.comment}\n'
             '{1}'
             '{2}'
             ).format(self, metadata, postings, flags)

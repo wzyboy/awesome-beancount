@@ -73,7 +73,7 @@ class Alipay(Account):
         # self.filter_results()
 
         self.merge_acclog_and_record()
-        self.transactions.sort(key=lambda t: t.trade_date)
+        self.transactions.sort(key=lambda t: t.sort_key())
 
     def current_csv_type(self, csv_data):
         reader = csv.reader(csv_data)
@@ -212,12 +212,13 @@ class AliRecord(Transaction):
         )
 
         d = {}
-        d['date'] = self.trade_date
+        d['date'] = self.beancount_transaction_date()
         d['flag'] = Account.beancount_flags
         d['payee'] = self.payee
         d['narration'] = self.name
         d['metadata'] = (
             '  tradeNo:"{0.tradeNo}"\n'
+            '  trade_date:"{0.trade_date}"\n'
             '  bill:"alipay record"\n'
             ).format(self)
         if self.expenses:
@@ -369,6 +370,7 @@ class AliAcclog(Transaction):
         chain = self.chain_info()
         metadata = (
             '  tradeNo:"{0.tradeNo}"\n'
+            '  trade_date:"{0.trade_date}"\n'
             '  bill:"alipay acclog"\n'
             '  time:"{0.time}"\n'
             '  comment:"{0.comment}"\n'
@@ -413,7 +415,7 @@ class AliAcclog(Transaction):
         )
 
         d = {}
-        d['date'] = self.trade_date
+        d['date'] = self.beancount_transaction_date()
         d['flag'] = Account.beancount_flags
         d['payee'] = self.chain_target() or ''
         d['narration'] = ''
