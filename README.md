@@ -39,7 +39,7 @@ You could also submit your bank bills along with your importers.
 
 ## Documentation
 
-- [Beancount documentation index](https://docs.google.com/document/d/1RaondTJCS_IUPBHFNdT8oqFKJjVJDsfsn6JEjBG04eA): A index documentation
+- [Beancount documentation index](https://docs.google.com/document/d/1RaondTJCS_IUPBHFNdT8oqFKJjVJDsfsn6JEjBG04eA) - A index documentation
 in Google Docs by Martin Blais (the author of Beancount).
 
 ### Methodology
