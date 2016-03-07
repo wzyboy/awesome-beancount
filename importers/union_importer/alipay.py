@@ -218,6 +218,7 @@ class AliRecord(Transaction):
         d['narration'] = self.name
         d['metadata'] = (
             '  tradeNo:"{0.tradeNo}"\n'
+            '  trade_date:"{0.trade_date}"\n'
             '  bill:"alipay record"\n'
             ).format(self)
         if self.expenses:
@@ -369,6 +370,7 @@ class AliAcclog(Transaction):
         chain = self.chain_info()
         metadata = (
             '  tradeNo:"{0.tradeNo}"\n'
+            '  trade_date:"{0.trade_date}"\n'
             '  bill:"alipay acclog"\n'
             '  time:"{0.time}"\n'
             '  comment:"{0.comment}"\n'

@@ -103,6 +103,7 @@ class CMBDebitTransaction(Transaction):
         return (
             '{3} {2} "" "{0.comment}"\n'
             '  bill:"cmb debit"\n'
+            '  trade_date:"{0.trade_date}"\n'
             '  time:"{0.trade_time}"\n'
             '  type:"{0.category}"\n'
             '  balance:"{0.balance}"\n'
