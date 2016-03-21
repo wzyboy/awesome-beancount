@@ -71,7 +71,7 @@ def print_beans(beans, filename=None):
 def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
-        'csv', nargs='?', type=argparse.FileType('r'), default=sys.stdin,
+        'csv', nargs='?', type=argparse.FileType(mode='r', encoding='utf-8'), default=sys.stdin,
         help='CSV file of China Merchants Bank debit card data'
     )
     argparser.add_argument('-p', '--pass', dest='_pass', action='store_true')
