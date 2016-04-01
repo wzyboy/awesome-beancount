@@ -9,7 +9,7 @@ import argparse
 class CMBCreditCardParser(object):
 
     def __init__(self, csv_data):
-        self.reader = csv.reader(csv_data)
+        self.reader = csv.DictReader(csv_data)
         self.parsed = []
 
     def _map_card(self, last4):
@@ -33,15 +33,13 @@ class CMBCreditCardParser(object):
 
     def parse(self, default_pass=True):
         for row in self.reader:
-            if row[0].strip() == '对账标志':
-                continue
             d = {}
-            d['b_date'] = row[2].strip()
+            d['b_date'] = row['\t记账日期'].strip()
             d['flag'] = '*' if default_pass else '!'
-            d['payee'] = row[3].strip().replace('"', '')
-            d['c_date'] = row[1].strip()
-            d['card'] = self._map_card(int(row[4].strip()))
-            d['l'], d['e'] = self._map_amount(row[5].strip().strip('"'))
+            d['payee'] = row['\t交易摘要'].strip().replace('"', '')
+            d['c_date'] = row['\t交易日期'].strip()
+            d['card'] = self._map_card(int(row['\t卡号后四位'].strip()))
+            d['l'], d['e'] = self._map_amount(row['\t人民币金额'].strip().strip('"'))
             self.parsed.append(d)
         return self.parsed
 
