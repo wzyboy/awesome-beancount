@@ -80,10 +80,11 @@ class CMBTransaction(Transaction):
                 '  ! Expenses:Uncategorized +{0.amount} CNY'
             ).format(self, self.beancount_account())
         else:
+            amount_abs = self.amount.strip('-')
             return (  # Refunds
-                '  {1} +{0.amount} CNY\n'
-                '  ! Expenses:Uncategorized -{0.amount} CNY'
-            ).format(self, self.beancount_account())
+                '  {1} +{0} CNY\n'
+                '  ! Expenses:Uncategorized -{0} CNY'
+            ).format(amount_abs, self.beancount_account())
 
     def beancount_repr(self):
         metadata = self.metadata()
