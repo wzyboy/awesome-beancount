@@ -57,6 +57,6 @@ in Google Docs by Martin Blais (the author of Beancount).
 ## Links
 
 - [Beancount](http://furius.ca/beancount/)
-- [Beancount source at Bitbucket](https://bitbucket.org/blais/beancount/overview)
+- [Beancount sources on GitHub]https://github.com/beancount/beancount/
 - [Plain Text Accounting](http://plaintextaccounting.org/)
 - [A Beancount tutorial (Chinese)](https://wzyboy.im/post/1063.html)
